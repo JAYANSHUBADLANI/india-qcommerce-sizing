@@ -1,0 +1,4 @@
+fiscal_year,period_end,revenue_cr,net_loss_cr,dark_stores,orders_per_store_per_day,aov_inr,ebitda_loss_per_order_inr,qc_order_share_pct,source
+FY24,2024-03-31,4455,-1215,337,,420,,,"Zepto U-DRHP filed with SEBI 2026-06-08 (AOV proxy)"
+FY25,2025-03-31,11110,-4700,950,1565,380,,,"Zepto U-DRHP filed with SEBI 2026-06-08 (AOV proxy)"
+FY26,2026-03-31,22624,-5905,1139,1677,361,-78.75,35,"Zepto U-DRHP filed with SEBI 2026-06-08"

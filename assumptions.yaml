@@ -1,0 +1,197 @@
+# assumptions.yaml
+# Indian Quick Commerce Market Sizing: Central Assumptions File
+# Every assumption is sourced or explicitly flagged as an estimate.
+# Changing any value here and rerunning run_model.py recalculates all outputs.
+
+reference_period: "FY26"  # April 2025 to March 2026
+reference_period_label: "FY2025-26 (April 2025 to March 2026)"
+
+exchange_rates:
+  usd_inr_fy26:
+    value: 95.47
+    note: "Spot rate as of August 15, 2026"
+    use_for: "Converting FY26 INR figures to USD"
+  usd_inr_cy2025:
+    value: 83.0
+    note: "Approximate average for CY2025"
+    use_for: "Converting CY2025-dated third-party USD estimates to INR for comparison"
+
+demographics:
+  urban_population:
+    value: 513500000  # 513.5 million
+    source: "MoHFW Technical Group on Population Projections 2011-2036, published July 2020"
+    year: 2026
+    is_assumption: false
+    note: "Official Government of India projection, not a census count"
+  
+  urban_household_size:
+    value: 4.2
+    source: "NFHS-5 (National Family Health Survey), MoHFW & IIPS, released March 2022"
+    is_assumption: false
+  
+  urban_households:
+    value: 122261905  # 513.5M / 4.2, rounded
+    source: "Derived from MoHFW urban population projection and NFHS-5 household size"
+    is_assumption: false
+    note: "~122.3 million households"
+  
+  tier1_metro_count: 8  # Delhi-NCR, Mumbai, Bengaluru, Hyderabad, Chennai, Kolkata, Pune, Ahmedabad
+  tier1_urban_population:
+    value: 130000000  # ~130 million
+    source: "Census 2011 top-8 metro agglomeration populations, projected forward using MoHFW urban CAGR of 1.83% p.a."
+    is_assumption: false
+    note: "Census 2011 base was ~85-90M for top 8 metros"
+  
+  tier1_households:
+    value: 30952381  # 130M / 4.2
+    source: "Derived from projected tier-1 population and NFHS-5 household size"
+    is_assumption: false
+    note: "~31 million households"
+  
+  tier2_city_count:
+    value: 70  # Top 70 tier-2 cities by population
+    source: "Census 2011 Class-I cities (pop >= 100k), selecting next ~70 after top-8 metros"
+    is_assumption: true
+    note: "Tier-2 definition varies; using cities ranked 9-78 by urban agglomeration population"
+  
+  tier2_urban_population:
+    value: 140000000  # ~140 million in top 70 tier-2 cities
+    source: "Census 2011 million-plus and Class-I city data, projected forward using MoHFW urban CAGR"
+    is_assumption: false
+    note: "Census 2011 base was ~95-105M for this city band"
+  
+  tier2_households:
+    value: 33333333  # 140M / 4.2
+    source: "Derived from projected tier-2 population and NFHS-5 household size"
+    is_assumption: false
+    note: "~33.3 million households"
+
+addressable_population:
+  tier1_income_filter:
+    value: 0.65
+    low: 0.55
+    high: 0.70
+    source: "PRICE ICE 360 Survey 2023: 55-60% of urban HH are middle class+; higher in tier-1 metros. MoSPI HCES 2022-23 top-40% MPCE threshold aligns."
+    is_assumption: true
+    note: "Fraction of tier-1 households with monthly income above ~Rs 30,000 (middle class and above)"
+  
+  tier2_income_filter:
+    value: 0.50
+    low: 0.40
+    high: 0.55
+    source: "PRICE ICE 360 Survey 2023: lower middle-class share outside top-8 metros. NCCS A+B is ~38-41% of all urban; tier-2 skews lower."
+    is_assumption: true
+    note: "Fraction of tier-2 households with monthly income above ~Rs 30,000"
+  
+  digital_readiness_filter:
+    value: 0.85
+    low: 0.78
+    high: 0.90
+    source: "TRAI March 2024: 556M urban internet subscribers out of ~500M urban pop (>100% tele-density). MoSPI PLFS 2023-24: 85.5% urban HH own smartphone. Bain 2024: 270M+ online shoppers nationally."
+    is_assumption: true
+    note: "Fraction of income-qualifying households that have smartphone, internet, and UPI capability"
+  
+  tier1_adoption_rate:
+    value: 0.58
+    low: 0.42
+    high: 0.72
+    source: "Calibrated from Blinkit Q4 FY26: 27.2M monthly transacting customers. At ~1.7 ordering members per household, that is ~16M households from Blinkit alone. Adding Instamart and Zepto (with overlap), the industry serves ~30-35M unique households. Against ~17M tier-1 addressable base, tier-1 adoption is very high. Cross-checked with Redseer: ~50M transacting users sector-wide across 250+ cities."
+    is_assumption: true
+    note: "Fraction of digitally-ready, income-qualifying tier-1 households ordering from quick commerce at least once per month. THIS IS THE KEY ASSUMPTION. Calibrated against actual disclosed transacting-customer data."
+  
+  tier2_adoption_rate:
+    value: 0.25
+    low: 0.12
+    high: 0.38
+    source: "No direct disclosure. Estimated as ~40-45% of tier-1 adoption, reflecting lower platform maturity, fewer dark stores, and narrower SKU selection. Swiggy reports tier-2/3 cities account for ~25% of new customer acquisitions in FY25/FY26. Blinkit operates in 300+ cities but ~70-75% of GOV is still from top 10 cities."
+    is_assumption: true
+    note: "Fraction of digitally-ready, income-qualifying tier-2 households ordering from quick commerce at least once per month"
+
+order_economics:
+  tier1_aov:
+    value: 620
+    low: 550
+    high: 700
+    source: "Weighted average of Blinkit AOV (Rs 665, Q4 FY25 shareholder letter) and Instamart AOV (Rs 700, Q4 FY26 shareholder letter) and Zepto AOV (Rs 361, Q4 FY26 U-DRHP). Weighted by approximate order share."
+    is_assumption: true
+    note: "Market-weighted average AOV in tier-1 cities, in INR. Wide range reflects mix of players and categories."
+  
+  tier2_aov:
+    value: 450
+    low: 380
+    high: 520
+    source: "No direct tier-2 AOV disclosure. Estimated as ~70-75% of tier-1 AOV, consistent with lower purchasing power and narrower non-grocery catalog in tier-2."
+    is_assumption: true
+    note: "Average order value in tier-2 cities, in INR"
+  
+  tier1_orders_per_hh_per_month:
+    value: 8.0
+    low: 5.0
+    high: 12.0
+    source: "Inferred: Blinkit Q4 FY26 had 273.9M orders from 27.2M monthly transacting customers = ~3.35 orders/customer/month. At ~1.7 ordering members per household, that is ~5.7 orders/HH/month from Blinkit alone. Households often use multiple platforms, so total orders/HH/month across all platforms is higher. Base case 8.0 reflects multi-platform usage."
+    is_assumption: true
+    note: "Orders per adopting household per month in tier-1, across all platforms. THIS IS THE SECOND KEY ASSUMPTION."
+  
+  tier2_orders_per_hh_per_month:
+    value: 5.0
+    low: 3.0
+    high: 7.5
+    source: "No direct disclosure. Estimated as ~60-65% of tier-1 frequency, reflecting lower habitual usage, fewer dark stores, and narrower SKU selection in tier-2."
+    is_assumption: true
+    note: "Orders per adopting household per month in tier-2, across all platforms"
+
+top_down:
+  big3_combined_market_share:
+    value: 0.90
+    low: 0.85
+    high: 0.95
+    source: "Goldman Sachs 2024-25: Blinkit ~45-50%, Zepto ~28-30%, Instamart ~22-25% = ~95-105% (overlapping ranges). Zepto U-DRHP claims 35% order share in FY26. Minor players (BB Now, Flipkart Minutes, Amazon, JioMart) collectively estimated at 5-15%."
+    is_assumption: true
+    note: "Blinkit + Instamart + Zepto combined share of total quick commerce GOV"
+  
+  minor_players_adjustment:
+    value: 1.111  # 1 / 0.90, used to gross up Big-3 total
+    note: "Derived from big3_combined_market_share"
+
+sam_som:
+  tier2_target_cities_for_entrant:
+    value: 25
+    low: 15
+    high: 40
+    source: "Assumption based on typical VC-funded quick commerce expansion playbook. Blinkit went from 26 to 300+ cities in ~2 years; a new entrant with strong funding could target top 25 tier-2 cities."
+    is_assumption: true
+  
+  new_entrant_dark_stores_year1:
+    value: 60
+    low: 30
+    high: 100
+    source: "Assumption. Zepto launched with ~50-70 stores in year 1 (2021-22). Adjusted for 2026 market maturity and higher capex requirements."
+    is_assumption: true
+  
+  new_entrant_dark_stores_year2:
+    value: 180
+    low: 100
+    high: 300
+    source: "Assumption. Blinkit added 294 stores in Q4 FY25 alone, but a new entrant scaling in tier-2 would face different economics."
+    is_assumption: true
+  
+  new_entrant_tier2_share_year2:
+    value: 0.08
+    low: 0.04
+    high: 0.15
+    source: "Assumption. In a market with 3 established players already expanding into tier-2, capturing 8% in 2 years assumes strong execution and differentiation."
+    is_assumption: true
+  
+  dark_store_breakeven_gov_per_day_lakh:
+    value: 7.0
+    source: "Blinkit Q4 FY24 shareholder letter: new dark stores reach contribution breakeven at ~Rs 7 lakh GOV per day"
+    is_assumption: false
+
+category_evolution:
+  grocery_share_of_gov:
+    value: 0.70
+    low: 0.60
+    high: 0.80
+    source: "Approximate. Blinkit and Zepto have expanded into electronics, beauty, cafe; non-grocery share is rising but grocery remains dominant. No player discloses exact grocery-vs-total split cleanly."
+    is_assumption: true
+    note: "Fraction of total quick commerce GOV that is grocery and daily essentials (the original 10-20 minute promise category)"

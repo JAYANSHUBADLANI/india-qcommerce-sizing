@@ -1,0 +1,19 @@
+{
+  "reference_period": "FY2025-26 (April 2025 to March 2026)",
+  "bottom_up_tam_cr": 68599,
+  "bottom_up_tam_usd_b": 7.2,
+  "top_down_tam_cr": 128779,
+  "top_down_tam_usd_b": 13.5,
+  "reconciliation_gap_pct": -46.7,
+  "scenario_low_cr": 20538,
+  "scenario_base_cr": 68599,
+  "scenario_high_cr": 168199,
+  "scenario_low_usd_b": 2.2,
+  "scenario_high_usd_b": 17.6,
+  "sam_tier2_cr": 9562,
+  "sam_tier2_usd_b": 1.0,
+  "som_year2_cr": 273,
+  "som_year2_usd_b": 0.03,
+  "meets_breakeven": false,
+  "min_sam_for_breakeven_cr": 57488
+}
